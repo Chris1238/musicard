@@ -51,14 +51,17 @@ async function Classic({
         const canvas = createCanvas(1320, 450)
         const ctx = canvas.getContext("2d")
 
-        const backgroundSvg = `<svg width="2458" height="837" viewBox="0 0 2458 837" fill="none" xmlns="http://www.w3.org/2000/svg">
+        /* const backgroundSvg = `<svg width="2458" height="837" viewBox="0 0 2458 837" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect width="1568" height="512" rx="80" fill="#0e0e0e"/>
     <rect y="565" width="1568" height="272" rx="80" fill="#0e0e0e"/>
     </svg>`
 
         const backgroundDataUrl = `data:image/svg+xml;base64,${Buffer.from(backgroundSvg).toString("base64")}`
         const background = await loadImage(backgroundDataUrl)
-        ctx.drawImage(background, 0, 0, 1320, 450)
+        ctx.drawImage(background, 0, 0, 1280, 450) */
+
+        const background = await loadImage("https://i.imgur.com/tkTjm3n.png");
+        ctx.drawImage(background, 0, 0, 1320, 450);
 
         // ---------------------------------
         const thumbnailCanvas = createCanvas(564, 564)
@@ -113,7 +116,7 @@ async function Classic({
         progressBarCtx.fillStyle = color
         progressBarCtx.fill()
 
-        ctx.drawImage(progressBarCanvas, 75, 330+13)
+        ctx.drawImage(progressBarCanvas, 75, 335+13)
         // ---------------------------------
         const circlewidth = (progress / 100) * 675
         const circleCanvas = createCanvas(circlewidth+60, 60+25)
@@ -124,7 +127,7 @@ async function Classic({
         circleCtx.fillStyle = color
         circleCtx.fill()
 
-        ctx.drawImage(circleCanvas, 75-10, 330)
+        ctx.drawImage(circleCanvas, 75-10, 335)
         // ---------------------------------
         ctx.fillStyle = color
         ctx.font = "70px extrabold"
@@ -136,11 +139,11 @@ async function Classic({
 
         ctx.fillStyle = "#fff"
         ctx.font = "30px semibold"
-        ctx.fillText(startTime, 75, 410);
+        ctx.fillText(startTime, 75, 415);
 
         ctx.fillStyle = "#fff"
         ctx.font = "30px semibold"
-        ctx.fillText(endTime, 685, 410);
+        ctx.fillText(endTime, 690, 415);
         // ---------------------------------
         return canvas.toBuffer("image/png")
     } catch (e) {
