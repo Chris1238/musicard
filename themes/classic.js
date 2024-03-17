@@ -48,7 +48,7 @@ async function Classic({
     if (author.length > 15) author = author.slice(0, 13) + ".." */
 
     try {
-        const canvas = createCanvas(2458, 837)
+        const canvas = createCanvas(1320, 450)
         const ctx = canvas.getContext("2d")
 
         const backgroundSvg = `<svg width="2458" height="837" viewBox="0 0 2458 837" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -58,7 +58,7 @@ async function Classic({
 
         const backgroundDataUrl = `data:image/svg+xml;base64,${Buffer.from(backgroundSvg).toString("base64")}`
         const background = await loadImage(backgroundDataUrl)
-        ctx.drawImage(background, 0, 0)
+        ctx.drawImage(background, 0, 0, 1320, 450)
 
         // ---------------------------------
         const thumbnailCanvas = createCanvas(564, 564)
@@ -79,22 +79,22 @@ async function Classic({
         thumbnailCtx.clip()
 
         thumbnailCtx.drawImage(thumbnailImage, thumbnailX, thumbnailY, thumbnailSize, thumbnailSize, 0, 0, thumbnailCanvas.width, thumbnailCanvas.height)
-        ctx.drawImage(thumbnailCanvas, 1621, 0, 837, 837)
+        ctx.drawImage(thumbnailCanvas, 870, 0, 450, 450)
         // ---------------------------------
 
-        const completed = (progress / 100) * 1342
-        const progressBarCanvas = createCanvas(1342, 47)
+        const barwidth = (progress / 100) * 685
+        const progressBarCanvas = createCanvas(685, 25)
         const progressBarCtx = progressBarCanvas.getContext("2d")
-        const cornerRadius = 20
+        const cornerRadius = 10
 
         progressBarCtx.beginPath()
         progressBarCtx.moveTo(cornerRadius, 0)
-        progressBarCtx.lineTo(1342 - cornerRadius, 0)
-        progressBarCtx.arc(1342 - cornerRadius, cornerRadius, cornerRadius, 1.5 * Math.PI, 2 * Math.PI)
-        progressBarCtx.lineTo(1342, 47 - cornerRadius)
-        progressBarCtx.arc(1342 - cornerRadius, 47 - cornerRadius, cornerRadius, 0, 0.5 * Math.PI)
-        progressBarCtx.lineTo(cornerRadius, 47)
-        progressBarCtx.arc(cornerRadius, 47 - cornerRadius, cornerRadius, 0.5 * Math.PI, Math.PI)
+        progressBarCtx.lineTo(685 - cornerRadius, 0)
+        progressBarCtx.arc(685 - cornerRadius, cornerRadius, cornerRadius, 1.5 * Math.PI, 2 * Math.PI)
+        progressBarCtx.lineTo(685, 25 - cornerRadius)
+        progressBarCtx.arc(685 - cornerRadius, 25 - cornerRadius, cornerRadius, 0, 0.5 * Math.PI)
+        progressBarCtx.lineTo(cornerRadius, 25)
+        progressBarCtx.arc(cornerRadius, 25 - cornerRadius, cornerRadius, 0.5 * Math.PI, Math.PI)
         progressBarCtx.lineTo(0, cornerRadius)
         progressBarCtx.arc(cornerRadius, cornerRadius, cornerRadius, Math.PI, 1.5 * Math.PI)
         progressBarCtx.closePath()
@@ -102,44 +102,45 @@ async function Classic({
         progressBarCtx.fill()
         progressBarCtx.beginPath()
         progressBarCtx.moveTo(cornerRadius, 0)
-        progressBarCtx.lineTo(completed - cornerRadius, 0)
-        progressBarCtx.arc(completed - cornerRadius, cornerRadius, cornerRadius, 1.5 * Math.PI, 2 * Math.PI)
-        progressBarCtx.lineTo(completed, 47)
-        progressBarCtx.lineTo(cornerRadius, 47)
-        progressBarCtx.arc(cornerRadius, 47 - cornerRadius, cornerRadius, 0.5 * Math.PI, Math.PI)
+        progressBarCtx.lineTo(barwidth - cornerRadius, 0)
+        progressBarCtx.arc(barwidth - cornerRadius, cornerRadius, cornerRadius, 1.5 * Math.PI, 2 * Math.PI)
+        progressBarCtx.lineTo(barwidth, 25)
+        progressBarCtx.lineTo(barwidth, 25)
+        progressBarCtx.arc(cornerRadius, 25 - cornerRadius, cornerRadius, 0.5 * Math.PI, Math.PI)
         progressBarCtx.lineTo(0, cornerRadius)
         progressBarCtx.arc(cornerRadius, cornerRadius, cornerRadius, Math.PI, 1.5 * Math.PI)
         progressBarCtx.closePath()
         progressBarCtx.fillStyle = color
         progressBarCtx.fill()
 
-        ctx.drawImage(progressBarCanvas, 113, 635+13)
+        ctx.drawImage(progressBarCanvas, 75, 330+13)
         // ---------------------------------
-        const circleCanvas = createCanvas(completed+60+60, 60+37.5)
+        const circlewidth = (progress / 100) * 675
+        const circleCanvas = createCanvas(circlewidth+60, 60+25)
         const circleCtx = circleCanvas.getContext("2d")
 
         circleCtx.beginPath()
-        circleCtx.arc(completed+5, 37.5, 30, 0, 2 * Math.PI)
+        circleCtx.arc(circlewidth+5+10, 25, 20, 0, 2 * Math.PI)
         circleCtx.fillStyle = color
         circleCtx.fill()
 
-        ctx.drawImage(circleCanvas, 113-5, 635)
+        ctx.drawImage(circleCanvas, 75-10, 330)
         // ---------------------------------
         ctx.fillStyle = color
-        ctx.font = "124px extrabold"
-        ctx.fillText(name, 113, 230)
+        ctx.font = "70px extrabold"
+        ctx.fillText(name, 75, 120)
 
         ctx.fillStyle = "#b8b8b8"
-        ctx.font = "87px semibold"
-        ctx.fillText(author, 113, 370)
+        ctx.font = "50px semibold"
+        ctx.fillText(author, 80, 190);
 
         ctx.fillStyle = "#fff"
-        ctx.font = "50px semibold"
-        ctx.fillText(startTime, 113, 768)
+        ctx.font = "30px semibold"
+        ctx.fillText(startTime, 75, 410);
 
         ctx.fillStyle = "#fff"
-        ctx.font = "50px semibold"
-        ctx.fillText(endTime, 1332, 768)
+        ctx.font = "30px semibold"
+        ctx.fillText(endTime, 685, 410);
         // ---------------------------------
         return canvas.toBuffer("image/png")
     } catch (e) {
