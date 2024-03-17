@@ -48,25 +48,26 @@ async function Classic({
     if (author.length > 15) author = author.slice(0, 13) + ".." */
 
     try {
-        const canvas = createCanvas(1280, 450)
+        const canvas = createCanvas(2458, 837)
         const ctx = canvas.getContext("2d")
 
-        const backgroundSvg = `<svg width="1280" height="450" viewBox="0 0 1280 450" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="816" height="270" rx="60" fill="#0e0e0e"/>
-    <rect y="300" width="816" height="150" rx="60" fill="#0e0e0e"/>
+        const backgroundSvg = `<svg width="2458" height="837" viewBox="0 0 2458 837" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1568" height="512" rx="80" fill="#0e0e0e"/>
+    <rect y="565" width="1568" height="272" rx="80" fill="#0e0e0e"/>
     </svg>`
 
         const backgroundDataUrl = `data:image/svg+xml;base64,${Buffer.from(backgroundSvg).toString("base64")}`
         const background = await loadImage(backgroundDataUrl)
         ctx.drawImage(background, 0, 0)
 
+        // ---------------------------------
         const thumbnailCanvas = createCanvas(564, 564)
         const thumbnailCtx = thumbnailCanvas.getContext("2d")
 
         const thumbnailSize = Math.min(thumbnailImage.width, thumbnailImage.height)
         const thumbnailX = (thumbnailImage.width - thumbnailSize) / 2
         const thumbnailY = (thumbnailImage.height - thumbnailSize) / 2
-        const thumbnailCornerRadius = 45
+        const thumbnailCornerRadius = 60
 
         thumbnailCtx.beginPath()
         thumbnailCtx.moveTo(0 + thumbnailCornerRadius, 0)
@@ -78,23 +79,22 @@ async function Classic({
         thumbnailCtx.clip()
 
         thumbnailCtx.drawImage(thumbnailImage, thumbnailX, thumbnailY, thumbnailSize, thumbnailSize, 0, 0, thumbnailCanvas.width, thumbnailCanvas.height)
-        ctx.drawImage(thumbnailCanvas, 837, 8, 435, 435)
+        ctx.drawImage(thumbnailCanvas, 1621, 0, 837, 837)
+        // ---------------------------------
 
-        const completed = (progress / 100) * 670
-        const circleX = completed + 60
-
-        const progressBarCanvas = createCanvas(670, 25)
+        const completed = (progress / 100) * 1342
+        const progressBarCanvas = createCanvas(1342, 47)
         const progressBarCtx = progressBarCanvas.getContext("2d")
-        const cornerRadius = 10
+        const cornerRadius = 20
 
         progressBarCtx.beginPath()
         progressBarCtx.moveTo(cornerRadius, 0)
-        progressBarCtx.lineTo(670 - cornerRadius, 0)
-        progressBarCtx.arc(670 - cornerRadius, cornerRadius, cornerRadius, 1.5 * Math.PI, 2 * Math.PI)
-        progressBarCtx.lineTo(670, 25 - cornerRadius)
-        progressBarCtx.arc(670 - cornerRadius, 25 - cornerRadius, cornerRadius, 0, 0.5 * Math.PI)
-        progressBarCtx.lineTo(cornerRadius, 25)
-        progressBarCtx.arc(cornerRadius, 25 - cornerRadius, cornerRadius, 0.5 * Math.PI, Math.PI)
+        progressBarCtx.lineTo(1342 - cornerRadius, 0)
+        progressBarCtx.arc(1342 - cornerRadius, cornerRadius, cornerRadius, 1.5 * Math.PI, 2 * Math.PI)
+        progressBarCtx.lineTo(1342, 47 - cornerRadius)
+        progressBarCtx.arc(1342 - cornerRadius, 47 - cornerRadius, cornerRadius, 0, 0.5 * Math.PI)
+        progressBarCtx.lineTo(cornerRadius, 47)
+        progressBarCtx.arc(cornerRadius, 47 - cornerRadius, cornerRadius, 0.5 * Math.PI, Math.PI)
         progressBarCtx.lineTo(0, cornerRadius)
         progressBarCtx.arc(cornerRadius, cornerRadius, cornerRadius, Math.PI, 1.5 * Math.PI)
         progressBarCtx.closePath()
@@ -104,44 +104,43 @@ async function Classic({
         progressBarCtx.moveTo(cornerRadius, 0)
         progressBarCtx.lineTo(completed - cornerRadius, 0)
         progressBarCtx.arc(completed - cornerRadius, cornerRadius, cornerRadius, 1.5 * Math.PI, 2 * Math.PI)
-        progressBarCtx.lineTo(completed, 25)
-        progressBarCtx.lineTo(cornerRadius, 25)
-        progressBarCtx.arc(cornerRadius, 25 - cornerRadius, cornerRadius, 0.5 * Math.PI, Math.PI)
+        progressBarCtx.lineTo(completed, 47)
+        progressBarCtx.lineTo(cornerRadius, 47)
+        progressBarCtx.arc(cornerRadius, 47 - cornerRadius, cornerRadius, 0.5 * Math.PI, Math.PI)
         progressBarCtx.lineTo(0, cornerRadius)
         progressBarCtx.arc(cornerRadius, cornerRadius, cornerRadius, Math.PI, 1.5 * Math.PI)
         progressBarCtx.closePath()
         progressBarCtx.fillStyle = color
         progressBarCtx.fill()
 
-        const circleCanvas = createCanvas(1000, 1000)
+        ctx.drawImage(progressBarCanvas, 113, 635+13)
+        // ---------------------------------
+        const circleCanvas = createCanvas(completed+60+60, 60+37.5)
         const circleCtx = circleCanvas.getContext("2d")
 
-        const circleRadius = 20
-        const circleY = 97
-
         circleCtx.beginPath()
-        circleCtx.arc(circleX, circleY, circleRadius, 0, 2 * Math.PI)
+        circleCtx.arc(completed+5, 37.5, 30, 0, 2 * Math.PI)
         circleCtx.fillStyle = color
         circleCtx.fill()
 
-        ctx.drawImage(progressBarCanvas, 70, 340, 670, 25)
-        ctx.drawImage(circleCanvas, 10, 255, 1000, 1000)
-
+        ctx.drawImage(circleCanvas, 113-5, 635)
+        // ---------------------------------
         ctx.fillStyle = color
-        ctx.font = "75px extrabold"
-        ctx.fillText(name, 70, 120)
+        ctx.font = "124px extrabold"
+        ctx.fillText(name, 113, 230)
 
         ctx.fillStyle = "#b8b8b8"
+        ctx.font = "87px semibold"
+        ctx.fillText(author, 113, 370)
+
+        ctx.fillStyle = "#fff"
         ctx.font = "50px semibold"
-        ctx.fillText(author, 75, 190)
+        ctx.fillText(startTime, 113, 768)
 
         ctx.fillStyle = "#fff"
-        ctx.font = "30px semibold"
-        ctx.fillText(startTime, 70, 410)
-
-        ctx.fillStyle = "#fff"
-        ctx.font = "30px semibold"
-        ctx.fillText(endTime, 670, 410)
+        ctx.font = "50px semibold"
+        ctx.fillText(endTime, 1332, 768)
+        // ---------------------------------
         return canvas.toBuffer("image/png")
     } catch (e) {
         throw new Error(e.message)
