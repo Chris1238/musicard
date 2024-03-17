@@ -103,6 +103,7 @@ async function Classic({
         progressBarCtx.closePath()
         progressBarCtx.fillStyle = "#ababab"
         progressBarCtx.fill()
+
         progressBarCtx.beginPath()
         progressBarCtx.moveTo(cornerRadius, 0)
         progressBarCtx.lineTo(barwidth - cornerRadius, 0)
@@ -143,7 +144,7 @@ async function Classic({
 
         ctx.fillStyle = "#fff"
         ctx.font = "30px semibold"
-        ctx.fillText(endTime, 690, 415);
+        ctx.fillText(endTime, 685, 415);
         // ---------------------------------
         return canvas.toBuffer("image/png")
     } catch (e) {
